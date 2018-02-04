@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.mapper.HotelMapper">
+
+    <resultMap id="hotel" type="Hotel">
+        <id column="hid" property="id"/>
+
+        <result column="haddress" property="address"/>
+        <result column="hname" property="hotelName"/>
+        <result column="hintroduce" property="introduce"/>
+        <result column="htype" property="type"/>
+
+        <collection property="hotelImgUrl" ofType="HotelPicture">
+            <id column="hp_id" property="id"/>
+
+            <result column="hp_picture" property="picture"/>
+            <result column="hp_hotel_id" property="hotel_id"/>
+        </collection>
+
+        <collection property="roomList" ofType="Room">
+            <id column="r_id" property="id"/>
+            <result column="r_name" property="roomName"/>
+            <result column="r_price" property="price"/>
+            <result column="r_bed" property="bedType"/>
+            <result column="r_introduction" property="introduction"/>
+            <result column="r_hotel_id" property="hotelId"/>
+            <result column="r_number" property="number"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getListByType" resultMap="hotel">
+       select h.id 'hid',h.hotel_name 'hname',h.address 'haddress',h.introduce 'hintroduce',h.type 'htype',
+       hp.picture 'hp_picture',hp.id 'hp_id',hp.hotel_id 'hp_hotel_id'
+       from hotel h left join hotel_picture hp on h.id = hp.hotel_id and h.type = #{type}
+
+    </select>
+
+
+    <select id="getHotelById" resultMap="hotel">
+      select h.id 'hid',h.hotel_name 'hname',h.address 'haddress',h.introduce 'hintroduce',h.type 'htype',
+      hp.picture 'hp_picture',hp.id 'hp_id',hp.hotel_id 'hp_hotel_id',
+      r.id 'r_id',r.room_name 'r_name',r.bed_type 'r_bed',r.price 'r_price',r.introduction 'r_introduction',r.room_can_buy 'r_number',r.hotel_id 'r_hotel_id'
+      from hotel h left join hotel_picture hp  on h.id = hp.hotel_id
+                     left join room r on  h.id = r.hotel_id
+                     WHERE h.id = #{hotel_id}
+    </select>
+
+    <select id="searchHotel" resultMap="hotel">
+      select h.id 'hid',h.hotel_name 'hname',h.address 'haddress',h.introduce 'hintroduce',h.type 'htype',
+      hp.picture 'hp_picture',hp.id 'hp_id',hp.hotel_id 'hp_hotel_id',
+      r.id 'r_id',r.room_name 'r_name',r.bed_type 'r_bed',r.price 'r_price',r.introduction 'r_introduction',r.room_can_buy 'r_number',r.hotel_id 'r_hotel_id'
+      from hotel h left join hotel_picture hp  on h.id = hp.hotel_id
+                     left join room r on  h.id = r.hotel_id
+                     WHERE h.hotel_name like "%"#{search}"%" or h.address like "%"#{search}"%"
+    </select>
+
+</mapper>

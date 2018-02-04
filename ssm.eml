@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="1.8" jdk_type="JavaSDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="com.springsource.org.aopalliance-1.0.0" value="project"/>
+		<level name="spring-aop-4.0.4.RELEASE" value="project"/>
+		<level name="commons-fileupload-1.3.3" value="project"/>
+		<level name="commons-io-2.6" value="project"/>
+		<level name="jsqlparser-1.0" value="project"/>
+	</levels>
+</component>

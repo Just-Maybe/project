@@ -1,0 +1,17 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.mapper.CommentMapper">
+    
+
+    <select id="getCommentByHotelId" resultType="Comment">
+        select c.*,u.`name`,u.imgUrl from comment c , user u where u.id=c.user_id and c.hotel_id=#{hotelId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <insert id="postComment" useGeneratedKeys="true">
+        INSERT into comment (content,create_time,hotel_id,user_id)
+        VALUES (#{content},#{createTime},#{hotelId},#{userId})
+
+    </insert>
+</mapper>

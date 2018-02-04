@@ -1,0 +1,58 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.mapper.OrderMapper">
+    <select id="getOrderByUserId" resultType="Order">
+        SELECT o.*,r.hotel_id,h.hotel_name from order_ o LEFT JOIN room r on o.room_id = r.id
+        LEFT JOIN hotel h on h.id = r.hotel_id
+        <where>
+            <if test='userId >= 0'>
+                and o.user_id = #{userId}
+            </if>
+            <if test="status > 0">
+                <if test='status == 5'>
+                    and o.status = #{status}
+                </if>
+                <if test="status != 5">
+                    and (o.status = 4 OR o.status = 1 OR o.status = 2 OR o.status = 3)
+                </if>
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="orderNow" parameterType="Order" useGeneratedKeys="true">
+        insert into order_ (room_id,days,number,price,create_date,live_time,leave_time,user_id,status)
+        VALUES (#{roomId},#{days},#{number},#{price},#{createDate},#{liveTime},#{leaveTime},#{userId},#{status})
+    </insert>
+
+
+    <insert id="updateOrder" parameterType="Order">
+        UPDATE order_
+        <set>
+            <if test="price != null and price > 0">
+                order_.price = #{price},
+            </if>
+            <if test="createDate != null">
+                order_.create_date = #{createDate},
+            </if>
+            <if test="liveTime != null">
+                order_.live_time = #{liveTime},
+            </if>
+            <if test="leaveTime != null">
+                order_.leave_time = #{leaveTime},
+            </if>
+            <if test="orderNo != null">
+                order_.order_no = #{orderNo}
+            </if>
+            <if test="status != null ">
+                order_.status = #{status},
+            </if>
+            <if test="number != null ">
+                order_.number = #{number}
+            </if>
+        </set>
+        where order_.room_id = #{roomId}
+
+    </insert>
+</mapper>

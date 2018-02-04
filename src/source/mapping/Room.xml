@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.how2java.mapper.RoomMapper">
+    <select id="getRoomsByHotelId" resultType="Room">
+        select r.*,h.* from hotel h LEFT  JOIN room r on h.id = r.hotel_id WHERE r.hotel_id = #{hotel_id}
+    </select>
+
+    <select id="list" resultType="Room">
+        select * from room
+    </select>
+
+</mapper>
